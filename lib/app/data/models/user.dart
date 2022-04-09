@@ -3,20 +3,16 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class Account {
-  final String fintechUseNum;
-  final String accountAlias;
-  final String bankCodeStd;
-  final String backCodeSub;
-  final String bankName;
-  final String accountHolderName;
+  final String fintech_useNum;
+  final String account_alias;
+  final String bank_name;
+  final String account_num_masked;
 
   Account(
-      {required this.fintechUseNum,
-      required this.accountAlias,
-      required this.bankCodeStd,
-      required this.backCodeSub,
-      required this.bankName,
-      required this.accountHolderName});
+      {required this.fintech_useNum,
+      required this.account_alias,
+      required this.bank_name,
+      required this.account_num_masked});
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
   Map<String, dynamic> toJson() => _$AccountToJson(this);
@@ -24,13 +20,13 @@ class Account {
 
 @JsonSerializable()
 class UserInfo {
-  final String userSeqNo;
-  final String userName;
-  final List<Account> accounts;
+  final String user_seq_no;
+  final String user_name;
+  final List<Account> res_list;
   UserInfo(
-      {required this.userSeqNo,
-      required this.userName,
-      required this.accounts});
+      {required this.user_seq_no,
+      required this.user_name,
+      required this.res_list});
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
