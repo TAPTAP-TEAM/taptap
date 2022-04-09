@@ -8,7 +8,7 @@ class ApiProvider extends GetConnect {
   final String _baseUrl = "https://testapi.openbanking.or.kr";
   AuthorizeResponse authResponse = AuthorizeResponse();
 
-  authorizeToken() async {
+  authorize() async {
     WebViewController _webViewController;
 
     final _parameter = AuthorizeParam.regular(CLINET_KEY);
