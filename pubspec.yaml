@@ -36,6 +36,7 @@ dependencies:
   get: ^4.6.1
   json_serializable: ^6.1.5
   build_runner: ^2.1.8
+  webview_flutter: ^3.0.2
 
 dev_dependencies:
   flutter_test:
