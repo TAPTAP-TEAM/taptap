@@ -20,12 +20,13 @@ class TAPTAP extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("SSS"),
-            Text(
+            const Text("SSS"),
+            const Text(
               "사용자 확인!",
               style: AppTextTheme.REGULAR,
             ),
-            ElevatedButton(onPressed: api.authorizeToken, child: Text("꿌"))
+            ElevatedButton(
+                onPressed: api.authorizeToken, child: const Text("API 테스트")),
           ],
         ),
       ),
