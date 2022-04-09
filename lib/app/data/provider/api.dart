@@ -8,7 +8,8 @@ part 'secret_key.dart';
 
 class ApiProvider extends GetConnect {
   final String _baseUrl = "https://testapi.openbanking.or.kr";
-  AuthorizeResponse authResponse = const AuthorizeResponse();
+  late AuthorizeResponse authResponse;
+  late IssueTokenResponse issueTokenResponse;
 
   authorize() async {
     WebViewController _webViewController;
@@ -48,5 +49,13 @@ class ApiProvider extends GetConnect {
         IssueTokenParam.regular(authResponse.code, CLINET_KEY, CLIENT_SECRET);
     Response response = await post("$_baseUrl/oauth/2.0/token", _parameter,
         headers: HeadersAPI().getHeaders());
+  }
+
+  getUserInfo() async {
+    if (issueTokenResponse.accessToken == "") return;
+    Response response = await get(
+        "$_baseUrl/v2.0/user/me?user_seq_no=${issueTokenResponse.userSeqNo}",
+        headers: HeadersAPI()
+            .getHeaders(auth: true, token: issueTokenResponse.accessToken));
   }
 }
