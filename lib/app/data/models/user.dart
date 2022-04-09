@@ -3,13 +3,13 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class Account {
-  final String fintech_useNum;
+  final String fintech_use_num;
   final String account_alias;
   final String bank_name;
   final String account_num_masked;
 
   Account(
-      {required this.fintech_useNum,
+      {required this.fintech_use_num,
       required this.account_alias,
       required this.bank_name,
       required this.account_num_masked});
