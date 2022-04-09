@@ -31,3 +31,36 @@ class AuthorizeParam {
     return param;
   }
 }
+
+class AuthorizeResponse {
+  final String code;
+  final String scope;
+  final String state;
+
+  const AuthorizeResponse({this.code = "", this.scope = "", this.state = ""});
+
+  factory AuthorizeResponse.uri(String uri) {
+    print("URI : $uri");
+
+    String _code = "";
+    String _scope = "";
+    String _state = "";
+
+    final parsedUri = Uri.parse(uri);
+    parsedUri.queryParameters.forEach((key, value) {
+      print("KEY $key");
+      switch (key) {
+        case "code":
+          _code = value;
+          break;
+        case "scope":
+          _scope = value;
+          break;
+        case "state":
+          _state = value;
+          break;
+      }
+    });
+    return AuthorizeResponse(code: _code, scope: _scope, state: _state);
+  }
+}
