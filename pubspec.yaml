@@ -38,6 +38,7 @@ dependencies:
   build_runner: ^2.1.8
   webview_flutter: ^3.0.2
   flutter_secure_storage: ^4.2.1
+  nfc_manager: ^3.1.1
 
 dev_dependencies:
   flutter_test:
