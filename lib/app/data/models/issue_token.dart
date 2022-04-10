@@ -16,6 +16,16 @@ class IssueTokenParam {
         IssueTokenParam(code: code, clientId: id, clientSecret: secret);
     return param;
   }
+
+  String get stringify {
+    String result = "";
+    result += "client_id=$clientId&";
+    result += "client_secret=$clientSecret&";
+    result += "code=$code&";
+    result += "redirect_uri=$redirectUri&";
+    result += "grant_type=$grantType";
+    return result;
+  }
 }
 
 class IssueTokenResponse {
