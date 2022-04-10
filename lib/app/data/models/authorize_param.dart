@@ -40,15 +40,12 @@ class AuthorizeResponse {
   const AuthorizeResponse({this.code = "", this.scope = "", this.state = ""});
 
   factory AuthorizeResponse.uri(String uri) {
-    print("URI : $uri");
-
     String _code = "";
     String _scope = "";
     String _state = "";
 
     final parsedUri = Uri.parse(uri);
     parsedUri.queryParameters.forEach((key, value) {
-      print("KEY $key");
       switch (key) {
         case "code":
           _code = value;

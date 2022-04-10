@@ -1,4 +1,4 @@
-import 'package:flutter/src/widgets/basic.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taptap/app/core/utils/headers.dart';
 import 'package:taptap/app/data/models/authorize_param.dart';
@@ -56,13 +56,6 @@ class ApiProvider extends GetConnect {
     final auth = await authorize();
     final issue = await issueToken(auth.code);
     return issue;
-
-    await authorize().then((value) async {
-      print(value.code);
-      await issueToken(value.code).then((value) {
-        return value.accessToken;
-      });
-    });
   }
 
   Future<UserInfo> getUserInfo() async {
@@ -70,8 +63,6 @@ class ApiProvider extends GetConnect {
         "$_baseUrl/v2.0/user/me?user_seq_no=${Get.find<AuthService>().seq_no}",
         headers: HeadersAPI()
             .getHeaders(auth: true, token: Get.find<AuthService>().token));
-
-    print(response.body);
     return UserInfo.fromJson(response.body);
   }
 }

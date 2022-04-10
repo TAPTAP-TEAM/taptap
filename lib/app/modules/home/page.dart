@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
                     style: AppTextTheme.REGULAR),
               ],
             ),
-        onLoading: Text("loading!..."));
+        onLoading: const Text("loading!..."));
   }
 
   Widget _account(Account account) {
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "홈화면",
                 style: AppTextTheme.MAIN,
               ),

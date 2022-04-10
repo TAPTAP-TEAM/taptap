@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:taptap/app/data/models/issue_token.dart';
@@ -17,11 +19,11 @@ class AuthService extends GetxService {
   String get token => _token.value;
   String get seq_no => _seq_no.value;
 
-  _setToken(String token, String seq_no) async {
+  _setToken(String token, String seqNo) async {
     _token.value = token;
-    _seq_no.value = seq_no;
+    _seq_no.value = seqNo;
     await _storage.write(key: TOKEN_KEY, value: token);
-    await _storage.write(key: USER_NO, value: seq_no);
+    await _storage.write(key: USER_NO, value: seqNo);
   }
 
   _removeToken() async {
@@ -46,7 +48,6 @@ class AuthService extends GetxService {
 
   Future<void> login() async {
     IssueTokenResponse response = await repository.login();
-
     String? token = response.accessToken;
     String? _seq_no = response.userSeqNo;
     if (token != null) await _setToken(token, _seq_no);
