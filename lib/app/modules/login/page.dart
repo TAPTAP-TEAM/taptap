@@ -17,11 +17,11 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "오픈뱅킹 로그인하기",
+                "새로운 \n만남으로 더 빠르게",
                 style: AppTextTheme.REGULAR,
               ),
               ElevatedButton(
