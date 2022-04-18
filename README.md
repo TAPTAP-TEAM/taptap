@@ -1,6 +1,6 @@
 # taptap
 
-A new Flutter project.
+간편 NFC 송금 서비스, 탭탭
 
 ## Getting Started
 
