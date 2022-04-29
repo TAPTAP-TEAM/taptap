@@ -52,6 +52,18 @@ class ApiProvider extends GetConnect {
     return IssueTokenResponse.fromJson(response.body);
   }
 
+  Future<IssueTokenResponse> issueRefreshToken(String refreshToken) async {
+    final _parameter =
+        IssueTokenParam.refresh(CLINET_KEY, CLIENT_SECRET, refreshToken);
+
+    Response response = await post(
+        "$_baseUrl/oauth/2.0/token", _parameter.refreshStringify,
+        contentType: 'application/x-www-form-urlencoded',
+        headers: HeadersAPI().getHeaders());
+
+    return IssueTokenResponse.fromJson(response.body);
+  }
+
   Future<IssueTokenResponse> login() async {
     final auth = await authorize();
     final issue = await issueToken(auth.code);
@@ -63,6 +75,10 @@ class ApiProvider extends GetConnect {
         "$_baseUrl/v2.0/user/me?user_seq_no=${Get.find<AuthService>().seq_no}",
         headers: HeadersAPI()
             .getHeaders(auth: true, token: Get.find<AuthService>().token));
+
+    if (response.statusCode == 401) {
+      // issueRefreshToken(Get.find<AuthService>.refreshToken); HOW TO?
+    }
     return UserInfo.fromJson(response.body);
   }
 }
