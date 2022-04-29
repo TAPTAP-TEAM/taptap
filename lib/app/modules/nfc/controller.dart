@@ -6,8 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/platform_tags.dart';
-import 'package:taptap/app/core/theme/text_theme.dart';
 import 'dart:convert' show ascii, utf8;
+import 'package:taptap/app/modules/nfc/widgets/android_dialog.dart';
+import 'package:taptap/app/modules/nfc/widgets/unable_dialog.dart';
 
 class NfcPageController extends GetxController with StateMixin {
   Future<void> startSession(
@@ -37,11 +38,11 @@ class NfcPageController extends GetxController with StateMixin {
   }
 
   Rx<NfcTag?> tag = Rx(null);
-  Map<String, dynamic>? additionalData;
+  Rx<Map<String, dynamic>?> additionalData = Rx(null);
 
   Future<String?> readHandleTag(NfcTag tag) async {
     this.tag.value = tag;
-    additionalData = {};
+    additionalData.value = {};
 
     Object? tech;
 
@@ -53,7 +54,7 @@ class NfcPageController extends GetxController with StateMixin {
           requestCode: FeliCaPollingRequestCode.noRequest,
           timeSlot: FeliCaPollingTimeSlot.max1,
         );
-        additionalData!['manufacturerParameter'] =
+        additionalData.value!['manufacturerParameter'] =
             polling.manufacturerParameter;
       }
     }
@@ -70,6 +71,7 @@ class NfcPageController extends GetxController with StateMixin {
     if (!tech.isWritable) throw ('Tag is not ndef writable.');
 
     change(null, status: RxStatus.loading());
+
     try {
       final message = NdefMessage([
         NdefRecord(
@@ -88,123 +90,8 @@ class NfcPageController extends GetxController with StateMixin {
     } on PlatformException catch (e) {
       throw (e.message ?? 'Some error has occurred.');
     }
-    change("GPPD", status: RxStatus.success());
+    change("GooD", status: RxStatus.success());
 
     return '[Ndef - Write] is completed.';
-  }
-}
-
-class UnAbleDialog extends StatelessWidget {
-  const UnAbleDialog({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Column(
-        children: const [
-          Text(
-            "NFC가 켜져 있지 않습니다",
-            style: AppTextTheme.MAIN,
-          )
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text(
-            "NFC가 켜져 있는지 확인해주세요",
-            style: AppTextTheme.REGULAR,
-          )
-        ],
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text("확인"))
-      ],
-    );
-  }
-}
-
-class AndroidDialog extends StatefulWidget {
-  AndroidDialog(this.alertMessage, this.handleTag);
-
-  final String alertMessage;
-  final Future<String?> Function(NfcTag tag) handleTag;
-
-  @override
-  State<AndroidDialog> createState() => _AndroidDialogState();
-}
-
-class _AndroidDialogState extends State<AndroidDialog> {
-  String? _alertMessage;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    NfcManager.instance.startSession(
-      onDiscovered: (tag) async {
-        try {
-          final result = await widget.handleTag(tag);
-          if (result == null) return;
-          await NfcManager.instance.stopSession();
-          setState(() => _alertMessage = result);
-        } catch (e) {
-          await NfcManager.instance.stopSession().catchError((_) {/* no op */});
-          setState(() => _errorMessage = '$e');
-        }
-      },
-    ).catchError((e) => setState(() => _errorMessage = '$e'));
-  }
-
-  @override
-  void dispose() {
-    NfcManager.instance.stopSession().catchError((_) {/* no op */});
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Column(
-        children: const [
-          Text(
-            "ANDROID",
-            style: AppTextTheme.MAIN,
-          )
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            _errorMessage?.isNotEmpty == true
-                ? 'Error'
-                : _alertMessage?.isNotEmpty == true
-                    ? 'Success'
-                    : 'Ready to scan',
-            style: AppTextTheme.REGULAR,
-          ),
-          Text(
-            _errorMessage?.isNotEmpty == true
-                ? _errorMessage!
-                : _alertMessage?.isNotEmpty == true
-                    ? _alertMessage!
-                    : widget.alertMessage,
-            style: AppTextTheme.REGULAR,
-          )
-        ],
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text("나가기"))
-      ],
-    );
   }
 }
