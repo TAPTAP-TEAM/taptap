@@ -4,6 +4,7 @@ import 'package:taptap/app/core/theme/text_theme.dart';
 import 'package:taptap/app/data/models/user.dart';
 import 'package:taptap/app/data/service/auth/service.dart';
 import 'package:taptap/app/modules/home/controller.dart';
+import 'package:taptap/app/routes/routes.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -74,6 +75,11 @@ class HomePage extends StatelessWidget {
               ),
               _userName(),
               Flexible(child: _accounts()),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.NFC);
+                  },
+                  child: const Text("NFC Test")),
               ElevatedButton(
                   onPressed: () {
                     Get.find<AuthService>().logout();
